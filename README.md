@@ -10,7 +10,7 @@
 </p>
 
 ## Overview
-Damas scripting langage interpreter written in C++
+Damas scripting language interpreter written in C++
 - [Official Github Repository](https://github.com/Robot-Fromage/damas)
 - [Damas Website](https://damas-lang.org/)
 - [Documentation](https://damas-lang.org/documentation)
