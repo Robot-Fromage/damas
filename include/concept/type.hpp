@@ -30,11 +30,21 @@ typedef uint32 (*fpHashFunc)( DObject* );
 typedef dmsError (*fpInitProc)( DObject*, DObject* );
 typedef DObject* (*fpNewFunc)( DType*, DObject* );
 typedef DObject* (*fpAllocFunc)( DType* );
+typedef DObject*(*fpGetter)( DObject*, void* );
+typedef int (*fpSetter)( DObject*, DObject*, void* );
+
+struct DAMAS_API DGetSet {
+    const char* name;
+    fpGetter get;
+    fpSetter set;
+    const char* doc;
+    void* info;
+};
 
 /// @class      DType
 /// @brief      The DType class represents a type in the Damas language.
 /// @details    DType stores a type detailed information.
-struct DType
+struct DAMAS_API DType
 {
     DString name;
     uint8 size;
@@ -47,6 +57,7 @@ struct DType
     fpInitProc init;
     fpNewFunc newf;
     fpAllocFunc alloc;
+    DGetSet* tp_getset;
 
     static
     void
@@ -77,7 +88,6 @@ struct DType
         uint32 offset = sizeof( int64 ) + sizeof( DType* );
         return CRC32( reinterpret_cast< uint8* >( obj ) + offset, obj->type->size - offset);
     }
-
 
     template< typename tObject >
     static

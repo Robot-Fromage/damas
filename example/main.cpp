@@ -17,9 +17,14 @@ struct DBasicObject : DObject {
     T val;
 };
 
-#define DO( T, _E0, _E1, _E2, _E3 )                     \
-    typedef DBasicObject< T >   T ## _Object; \
+#define DO( T, _E0, _E1, _E2, _E3 )             \
+    typedef DBasicObject< T >   T ## _Object;   \
     DType T ## _Type = DType::MakeGeneric< T ## _Object >( #T, "Basic arithmetic " #T );
+DAMAS_FOR_ALL_TYPES_DO( DO, 0, 0, 0, );
+
+#define DO( T, _E0, _E1, _E2, _E3 )                 \
+    typedef DBasicObject< T* >   T ## _PtrObject;   \
+    DType T ## _PtrType = DType::MakeGeneric< T ## _PtrObject >( #T, "Basic pointer " #T "*" );
 DAMAS_FOR_ALL_TYPES_DO( DO, 0, 0, 0, );
 
 struct char_Object : DObject {
@@ -48,57 +53,9 @@ struct vec2f_Object : DObject {
 
 DType vec2f_Type = DType::MakeGeneric< ptr_Object >( "vec2f", "Vector float 2D" );
 
-DType* typeRegister[] = {
-      &uint8_Type
-    , &uint16_Type
-    , &uint32_Type
-    , &uint64_Type
-    , &int8_Type
-    , &int16_Type
-    , &int32_Type
-    , &int64_Type
-    , &float_Type
-    , &double_Type
-    , &bool_Type
-    , &char_Type
-    , &ptr_Type
-    , &genericComposite_Type
-    , &vec2f_Type
-};
-
 int
 main( int argc, char *argv[] )
 {
-    uint8_Object* var_test = (uint8_Object*)uint8_Type.ObjectCreate();
-    uint32 hash = uint8_Type.hash( var_test );
-
-    ptr_Object* ptr_test = (ptr_Object*)ptr_Type.ObjectCreate();
-    ptr_test->val = var_test;
-
-    ptr_Type.ObjectDelete( ptr_test );
-    uint8_Type.ObjectDelete( var_test );
-
-    uint8_Object* var_uint8 = (uint8_Object*)uint8_Type.ObjectCreate();
-    uint16_Object*var_uint16 = (uint16_Object*)uint16_Type.ObjectCreate();
-    uint32_Object* var_uint32 = (uint32_Object*)uint32_Type.ObjectCreate();
-    uint64_Object* var_uint64 = (uint64_Object*)uint64_Type.ObjectCreate();
-    int8_Object* var_int8 = (int8_Object*)int8_Type.ObjectCreate();
-    int16_Object* var_int16 = (int16_Object*)int16_Type.ObjectCreate();
-    int32_Object* var_int32 = (int32_Object*)int32_Type.ObjectCreate();
-    int64_Object* var_int64 = (int64_Object*)int64_Type.ObjectCreate();
-    float_Object* var_float = (float_Object*)float_Type.ObjectCreate();
-    double_Object* var_double = (double_Object*)double_Type.ObjectCreate();
-    uint8_Type.ObjectDelete( var_uint8 );
-    uint16_Type.ObjectDelete( var_uint16 );
-    uint32_Type.ObjectDelete( var_uint32 );
-    uint64_Type.ObjectDelete( var_uint64 );
-    int8_Type.ObjectDelete( var_int8 );
-    int16_Type.ObjectDelete( var_int16 );
-    int32_Type.ObjectDelete( var_int32 );
-    int64_Type.ObjectDelete( var_int64 );
-    float_Type.ObjectDelete( var_float );
-    double_Type.ObjectDelete( var_double );
-
     std::cout << "IsHardwareAmd:            " << DCPUInfo::IsHardwareAmd()             << std::endl;
     std::cout << "IsHardwareIntel:          " << DCPUInfo::IsHardwareIntel()           << std::endl;
     std::cout << "IsOSx64:                  " << DCPUInfo::IsOSx64()                   << std::endl;
@@ -140,45 +97,35 @@ main( int argc, char *argv[] )
     std::cout << "L1CacheSize:              " << DCPUInfo::L1CacheSize()               << std::endl;
     std::cout << "L1CacheLineSize:          " << DCPUInfo::L1CacheLineSize()           << std::endl;
     std::cout << DLibInfo::LibraryInformationString().Data() << std::endl;
+
+    uint8_Object* var_test = (uint8_Object*)uint8_Type.ObjectCreate();
+    ptr_Object* ptr_test = (ptr_Object*)ptr_Type.ObjectCreate();
+    uint32 hash = uint8_Type.hash( var_test );
+    ptr_test->val = var_test;
+    ptr_Type.ObjectDelete( ptr_test );
+    uint8_Type.ObjectDelete( var_test );
+
+    uint8_Object*   var_uint8   = ( uint8_Object*   )uint8_Type.ObjectCreate();
+    uint16_Object*  var_uint16  = ( uint16_Object*  )uint16_Type.ObjectCreate();
+    uint32_Object*  var_uint32  = ( uint32_Object*  )uint32_Type.ObjectCreate();
+    uint64_Object*  var_uint64  = ( uint64_Object*  )uint64_Type.ObjectCreate();
+    int8_Object*    var_int8    = ( int8_Object*    )int8_Type.ObjectCreate();
+    int16_Object*   var_int16   = ( int16_Object*   )int16_Type.ObjectCreate();
+    int32_Object*   var_int32   = ( int32_Object*   )int32_Type.ObjectCreate();
+    int64_Object*   var_int64   = ( int64_Object*   )int64_Type.ObjectCreate();
+    float_Object*   var_float   = ( float_Object*   )float_Type.ObjectCreate();
+    double_Object*  var_double  = ( double_Object*  )double_Type.ObjectCreate();
+    DType::ObjectDelete( var_uint8 );
+    DType::ObjectDelete( var_uint16 );
+    DType::ObjectDelete( var_uint32 );
+    DType::ObjectDelete( var_uint64 );
+    DType::ObjectDelete( var_int8 );
+    DType::ObjectDelete( var_int16 );
+    DType::ObjectDelete( var_int32 );
+    DType::ObjectDelete( var_int64 );
+    DType::ObjectDelete( var_float );
+    DType::ObjectDelete( var_double );
+
     return  0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
