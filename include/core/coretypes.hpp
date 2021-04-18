@@ -45,8 +45,14 @@ typedef  int64      dmsError;   ///< Signed integer errors reports.
     X( uint8,   _E0, _E1, _E2, _E3 )                        \
     X( uint16,  _E0, _E1, _E2, _E3 )                        \
     X( uint32,  _E0, _E1, _E2, _E3 )                        \
-    X( ufloat,  _E0, _E1, _E2, _E3 )                        \
-    X( udouble, _E0, _E1, _E2, _E3 )
+    X( uint64,  _E0, _E1, _E2, _E3 )                        \
+    X( int8,    _E0, _E1, _E2, _E3 )                        \
+    X( int16,   _E0, _E1, _E2, _E3 )                        \
+    X( int32,   _E0, _E1, _E2, _E3 )                        \
+    X( int64,   _E0, _E1, _E2, _E3 )                        \
+    X( float,  _E0, _E1, _E2, _E3 )                         \
+    X( double,  _E0, _E1, _E2, _E3 )                        \
+    X( bool, _E0, _E1, _E2, _E3 )
 
 // dmsError reports
 #define DAMAS_SUCCESS                       0

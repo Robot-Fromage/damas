@@ -12,51 +12,45 @@
 #include <iostream>
 using namespace dms;
 
-struct DUint8Object : public DObject {
-    uint8 value;
-
-    static
-    void
-    Dealloc( DUint8Object* oSelf ) {
-        delete  oSelf;
-    }
-
-    static
-    void
-    Alloc( DUint8Object* oSelf ) {
-        delete  oSelf;
-    }
-
-    static
-    dmsError
-    InitProc( DUint8Object* ioSelf, DObject* iArgs ) {
-        ioSelf->refcount = 1;
-        ioSelf->value = 0;
-        return  DAMAS_SUCCESS;
-    }
-
-    static
-    DObject*
-    New( DType* iType, DObject* iArgs ) {
-        DUint8Object* self = new DUint8Object();
-    }
+template< typename T >
+struct DBasicObject : DObject {
+    T val;
 };
 
-static
-DType
-sgDType_uint8 {
-    "uint8"
-    , 1
-    , DAMAS_TPFLAG_PURE
-    , "Basic numeric type uint8"
-    , nullptr
-    , nullptr
-    , nullptr
-};
+#define DO( T, _E0, _E1, _E2, _E3 )                     \
+    typedef DBasicObject< T >   T ## _Object; \
+    DType T ## _Type = DType::MakeGeneric< T ## _Object >( #T, "Basic arithmetic " #T );
+DAMAS_FOR_ALL_TYPES_DO( DO, 0, 0, 0, );
 
 int
 main( int argc, char *argv[] )
 {
+    uint8_Object* var_test = (uint8_Object*)uint8_Type.ObjectCreate();
+    var_test->val = 50;
+    uint32 hash = uint8_Type.hash( var_test );
+    uint8_Type.ObjectDelete( var_test );
+
+    uint8_Object* var_uint8 = (uint8_Object*)uint8_Type.ObjectCreate();
+    uint16_Object*var_uint16 = (uint16_Object*)uint16_Type.ObjectCreate();
+    uint32_Object* var_uint32 = (uint32_Object*)uint32_Type.ObjectCreate();
+    uint64_Object* var_uint64 = (uint64_Object*)uint64_Type.ObjectCreate();
+    int8_Object* var_int8 = (int8_Object*)int8_Type.ObjectCreate();
+    int16_Object* var_int16 = (int16_Object*)int16_Type.ObjectCreate();
+    int32_Object* var_int32 = (int32_Object*)int32_Type.ObjectCreate();
+    int64_Object* var_int64 = (int64_Object*)int64_Type.ObjectCreate();
+    float_Object* var_float = (float_Object*)float_Type.ObjectCreate();
+    double_Object* var_double = (double_Object*)double_Type.ObjectCreate();
+    uint8_Type.ObjectDelete( var_uint8 );
+    uint16_Type.ObjectDelete( var_uint16 );
+    uint32_Type.ObjectDelete( var_uint32 );
+    uint64_Type.ObjectDelete( var_uint64 );
+    int8_Type.ObjectDelete( var_int8 );
+    int16_Type.ObjectDelete( var_int16 );
+    int32_Type.ObjectDelete( var_int32 );
+    int64_Type.ObjectDelete( var_int64 );
+    float_Type.ObjectDelete( var_float );
+    double_Type.ObjectDelete( var_double );
+
     std::cout << "IsHardwareAmd:            " << DCPUInfo::IsHardwareAmd()             << std::endl;
     std::cout << "IsHardwareIntel:          " << DCPUInfo::IsHardwareIntel()           << std::endl;
     std::cout << "IsOSx64:                  " << DCPUInfo::IsOSx64()                   << std::endl;

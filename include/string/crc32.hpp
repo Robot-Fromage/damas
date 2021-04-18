@@ -18,7 +18,7 @@ DAMAS_NAMESPACE_BEGIN
 /// @param      iData The data to hash, cast as pointer to const uint8.
 /// @param      iLen The size of the data to hash in bytes.
 /// @return     An uint32 representing the CRC32 hash.
-uint32 CRC32( const uint8* iData, int iLen );
+uint32 DAMAS_API CRC32( const uint8* iData, int iLen );
 
 DAMAS_NAMESPACE_END
 

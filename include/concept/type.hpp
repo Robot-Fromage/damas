@@ -9,30 +9,131 @@
 */
 #pragma once
 #include "core/core.hpp"
+#include "concept/object.hpp"
+#include "string/string.hpp"
+#include "string/crc32.hpp"
+#include "memory/memory.hpp"
 
 DAMAS_NAMESPACE_BEGIN
-// FDecl
 struct DObject;
 struct DType;
-typedef void (*fpDestructor)( DObject* /* oSelf */ );
-typedef void (*fpInitProc)( DObject* /* ioSelf */, DObject* /* iArgs */ );
-typedef DObject* (*fpNewProc)( DType* /* iType */, DObject* /* iArgs */ );
+typedef DObject* (*fpUnaryOperator)( DObject* );
+typedef DObject* (*fpBinaryOperator)( DObject*, DObject* );
+typedef DObject* (*fpTernaryOperator)( DObject*, DObject*, DObject* );
+typedef void (*fpDeallocFunc)( void* );
+typedef void (*fpDeleteFunc)( DObject* );
+typedef void (*fpDestructor)( DObject* );
+typedef DObject* (*fpGetAttributeFunc)( DObject*, const char* );
+typedef dmsError (*fpSetAttributeFunc)( DObject*, const char*, DObject* );
+typedef DObject* (*fpReprFunc)( DObject* );
+typedef uint32 (*fpHashFunc)( DObject* );
+typedef dmsError (*fpInitProc)( DObject*, DObject* );
+typedef DObject* (*fpNewFunc)( DType*, DObject* );
+typedef DObject* (*fpAllocFunc)( DType* );
 
 /// @class      DType
 /// @brief      The DType class represents a type in the Damas language.
 /// @details    DType stores a type detailed information.
-struct DAMAS_API DType
+struct DType
 {
-    const char* name;
+    DString name;
     uint8 size;
-    uint32 flags;
-    const char* doc;
+    DString doc;
+    fpDeallocFunc dealloc;
+    fpDeleteFunc deletef;
     fpDestructor destructor;
-    fpInitProc initproc;
-    fpNewProc newproc;
-};
+    fpReprFunc repr;
+    fpHashFunc hash;
+    fpInitProc init;
+    fpNewFunc newf;
+    fpAllocFunc alloc;
 
-#define DAMAS_TPFLAG_PURE 0
+    static
+    void
+    GenericDealloc( void* iBuffer ) {
+        XFree( iBuffer );
+    }
+
+    template< typename tObject >
+    static
+    void
+    GenericDelete( DObject* iObject ) {
+        GenericDestructor< tObject >( iObject );
+        GenericDealloc( iObject );
+    }
+
+    template< typename tObject >
+    static
+    void
+    GenericDestructor( DObject* iObject ) {
+        reinterpret_cast< tObject* >( iObject )->~tObject();
+    }
+
+    template< typename tObject >
+    static
+    uint32
+    GenericHash( DObject* iObject ) {
+        tObject* obj = reinterpret_cast< tObject* >( iObject );
+        uint32 offset = sizeof( int64 ) + sizeof( DType* );
+        return CRC32( reinterpret_cast< uint8* >( obj ) + offset, obj->type->size - offset);
+    }
+
+
+    template< typename tObject >
+    static
+    dmsError
+    GenericInit( DObject* iObject, DObject* iArgs = nullptr ) {
+        tObject* obj = reinterpret_cast< tObject* >( iObject );
+        memset( obj, 0, sizeof( tObject ) );
+        return  DAMAS_SUCCESS;
+    }
+
+    static
+    DObject*
+    GenericNew( DType* iType, DObject* iArgs = nullptr ) {
+        DObject* obj = iType->alloc( iType );
+        iType->init( obj, iArgs );
+        obj->refcount = 1;
+        obj->type = iType;
+        return  obj;
+    }
+
+    static
+    DObject*
+    GenericAlloc( DType* iType ) {
+        return  reinterpret_cast< DObject* >( XMalloc( iType->size ) );
+    }
+
+    template< typename tObject >
+    static
+    DType
+    MakeGeneric( const char* iName, const char* iDoc ) {
+        return {
+              iName
+            , sizeof( tObject )
+            , iDoc
+            , GenericDealloc
+            , GenericDelete< tObject >
+            , GenericDestructor< tObject >
+            , nullptr
+            , GenericHash< tObject >
+            , GenericInit< tObject >
+            , GenericNew
+            , GenericAlloc
+        };
+    }
+
+    DObject*
+    ObjectCreate() {
+        return  newf( this, nullptr );
+    }
+
+    static
+    void
+    ObjectDelete( DObject* iObject ) {
+        iObject->type->deletef( iObject );
+    }
+};
 
 DAMAS_NAMESPACE_END
 
