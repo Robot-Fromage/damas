@@ -118,7 +118,7 @@
           #define DAMAS_PLATFORM_NAME WIN32
        #endif
     #elif __APPLE__
-        #include "TargetConditionals.h"
+        #include "TargetConditionals.hpp"
         #if TARGET_IPHONE_SIMULATOR
              #define DAMAS_IOS_SIMULATOR
              #define DAMAS_PLATFORM_NAME IOS_SIMULATOR
