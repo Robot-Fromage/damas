@@ -11,5 +11,17 @@
 #include "core/core.hpp"
 
 DAMAS_NAMESPACE_BEGIN
+// FDecl
+struct DType;
+
+/// @class      DObject
+/// @brief      The DObject class represents an object in the Damas language.
+/// @details    DObject stores an object detailed information.
+struct DAMAS_API DObject
+{
+    int64 refcount;
+    DType* type;
+};
+
 DAMAS_NAMESPACE_END
 

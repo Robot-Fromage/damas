@@ -29,16 +29,16 @@ private:
 
 public:
     /*! Retrieve the full version string "major.minor.patch". */
-    static std::string VersionString();
+    static const char* VersionString();
 
     /*! Retrieve the major version string. */
-    static std::string VersionEpochString();
+    static const char* VersionEpochString();
 
     /*! Retrieve the minor version string. */
-    static std::string VersionMinorString();
+    static const char* VersionMinorString();
 
     /*! Retrieve the patch version string. */
-    static std::string VersionPatchString();
+    static const char* VersionPatchString();
 
     /*! Retrieve the major version number. */
     static uint64 VersionEpoch();
@@ -50,19 +50,19 @@ public:
     static uint64 VersionPatch();
 
     /*! Retrieve the built configuration ( Debug, Release, RelWithDebInfo ). */
-    static std::string ConfigurationString();
+    static const char* ConfigurationString();
 
     /*! Retrieve the compilation date and time e.g: "Aug 15 2020, 15:12:04". */
-    static std::string CompilationTimeString();
+    static const char* CompilationTimeString();
 
     /*! Retrieve the compiler name string */
-    static std::string CompilerNameString();
+    static const char* CompilerNameString();
 
     /*! Retrieve the compiler version string */
-    static std::string CompilerVersionString();
+    static const char* CompilerVersionString();
 
     /*! Retrieve the full information string */
-    static std::string CompilerInformationString();
+    static const char* CompilerInformationString();
 
     /*! Retrieve wether the library was compiled for x64 target */
     static bool CompiledForx64();
@@ -76,14 +76,17 @@ public:
     /*! Retrieve wether the library was built as a shared library ( true: shared, false: static ). */
     static bool BuiltAsSharedLibrary();
 
+    /*! Retrieve the platform where the library was built. */
+    static const char* PlatformNameString();
+
     /*! Retrieve the git branch from where it was compiled if available */
-    static std::string BranchNameString();
+    static const char* BranchNameString();
 
     /*! Retrieve the git commit hash from where it was compiled if available */
-    static std::string CommitHashString();
+    static const char* CommitHashString();
 
     /*! Retrieve the git commit hash from where it was compiled if available */
-    static std::string CommitAbbreviatedHashString();
+    static const char* CommitAbbreviatedHashString();
 
     /*! Retrieve the full library identification string */
     static std::string LibraryInformationString();

@@ -53,25 +53,5 @@ typedef  int64      dmsError;   ///< Signed integer errors reports.
 #define DAMAS_WARNING                       -1
 #define DAMAS_ERROR                         +1
 
-// enums
-enum class eValueCategory : uint8
-{
-      kLValue = 0
-    , kRValue = 1
-};
-
-enum class eValueIdentity : uint8
-{
-      kLiteral = 0
-    , kNamed = 1
-};
-
-enum class eTypeIdentity : uint8
-{
-      kPure = 0
-    , kComposite = 1
-    , kArray = 2
-};
-
 DAMAS_NAMESPACE_END
 

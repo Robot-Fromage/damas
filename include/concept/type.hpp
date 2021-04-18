@@ -12,24 +12,28 @@
 #include <string>
 
 DAMAS_NAMESPACE_BEGIN
+// FDecl
+struct DObject;
+struct DType;
+typedef void (*fpDestructor)( DObject* /* oSelf */ );
+typedef void (*fpInitProc)( DObject* /* ioSelf */, DObject* /* iArgs */ );
+typedef DObject* (*fpNewProc)( DType* /* iType */, DObject* /* iArgs */ );
+
 /// @class      DType
 /// @brief      The DType class represents a type in the Damas language.
-/// @details    DType stores a type detailled information.
+/// @details    DType stores a type detailed information.
 struct DAMAS_API DType
 {
+    const char* name;
     uint8 size;
-    std::string name;
-    const eTypeIdentity identity;
+    uint32 flags;
+    const char* doc;
+    fpDestructor destructor;
+    fpInitProc initproc;
+    fpNewProc newproc;
 };
 
-DType sgDType_uint8  { 1, "uint8",  eTypeIdentity::kPure };
-DType sgDType_uint16 { 2, "uint16", eTypeIdentity::kPure };
-DType sgDType_uint32 { 4, "uint32", eTypeIdentity::kPure };
-DType sgDType_uint64 { 8, "uint64", eTypeIdentity::kPure };
-DType sgDType_int8   { 1, "int8",   eTypeIdentity::kPure };
-DType sgDType_int16  { 2, "int16",  eTypeIdentity::kPure };
-DType sgDType_int32  { 4, "int32",  eTypeIdentity::kPure };
-DType sgDType_int64  { 8, "int64",  eTypeIdentity::kPure };
+#define DAMAS_TPFLAG_PURE 0
 
 DAMAS_NAMESPACE_END
 

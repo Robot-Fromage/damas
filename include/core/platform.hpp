@@ -62,23 +62,37 @@
 #ifndef DAMAS_RELWITHDEBINFO
     #ifdef NDEBUG
         #define DAMAS_RELEASE
+        #define DAMAS_CONFIGURATION Release
     #else
         #define DAMAS_DEBUG
+        #define DAMAS_CONFIGURATION Debug
     #endif
+#else
+    #define DAMAS_CONFIGURATION RelWithDebInfo
 #endif
 
 /////////////////////////////////////////////////////
 // Detect Compiler
 #if defined(__clang__)
     #define DAMAS_CLANG
+    #define DAMAS_COMPILER_NAME CLANG
+    #define DAMAS_COMPILER_VERSION __clang_major__.__clang_minor__.__clang_patchlevel__
 #elif defined(__GNUC__) || defined(__GNUG__)
     #define DAMAS_GCC
+    #define DAMAS_COMPILER_VERSION __GNUC__.__GNUC_MINOR__
+#define DAMAS_COMPILER_NAME GCC
 #elif defined(_MSC_VER)
     #define DAMAS_MSVC
+    #define DAMAS_COMPILER_NAME MSVC
+    #define DAMAS_COMPILER_VERSION _MSC_VER
 #elif defined(__MINGW64__)
     #define DAMAS_MINGW64
+    #define DAMAS_COMPILER_NAME MINGW64
+    #define DAMAS_COMPILER_VERSION __MINGW64_VERSION_MAJOR.__MINGW64_VERSION_MINOR
 #else
     #define DAMAS_UNKNOWN_COMPILER
+    #define DAMAS_COMPILER_NAME UNKNOWN
+    #define DAMAS_COMPILER_VERSION 0
 #endif
 
 /////////////////////////////////////////////////////
@@ -98,28 +112,38 @@
         #define DAMAS_WIN
        #ifdef _WIN64
           #define DAMAS_WIN64
+          #define DAMAS_PLATFORM_NAME WIN64
        #else
           #define DAMAS_WIN32
+          #define DAMAS_PLATFORM_NAME WIN32
        #endif
     #elif __APPLE__
         #include "TargetConditionals.h"
         #if TARGET_IPHONE_SIMULATOR
              #define DAMAS_IOS_SIMULATOR
+             #define DAMAS_PLATFORM_NAME IOS_SIMULATOR
         #elif TARGET_OS_IPHONE
-            #define DAMAS_IOS_DEVICE
+             #define DAMAS_IOS_DEVICE
+             #define DAMAS_PLATFORM_NAME IOS_DEVICE
         #elif TARGET_OS_MAC
             #define DAMAS_MACOS
+             #define DAMAS_PLATFORM_NAME MACOS
         #else
-            #error "Unknown Apple platform"
+             #error "Unknown Apple platform"
+             #define DAMAS_PLATFORM_NAME UNKNOWN
         #endif
     #elif __linux__
         #define DAMAS_LINUX
+        #define DAMAS_PLATFORM_NAME LINUX
     #elif __unix__
         #define DAMAS_UNIX
+        #define DAMAS_PLATFORM_NAME UNIX
     #elif defined(_POSIX_VERSION)
         #define DAMAS_POSIX
+        #define DAMAS_PLATFORM_NAME POSIX
     #else
         #error "Unknown Platform"
+        #define DAMAS_PLATFORM_NAME UNKNOWN
     #endif
 #endif
 
