@@ -22,12 +22,60 @@ struct DBasicObject : DObject {
     DType T ## _Type = DType::MakeGeneric< T ## _Object >( #T, "Basic arithmetic " #T );
 DAMAS_FOR_ALL_TYPES_DO( DO, 0, 0, 0, );
 
+struct char_Object : DObject {
+    char val;
+};
+
+DType char_Type = DType::MakeGeneric< char_Object >( "char", "Basic char" );
+
+struct ptr_Object : DObject {
+    DObject* val;
+};
+
+DType ptr_Type = DType::MakeGeneric< ptr_Object >( "ptr", "Generic pointer" );
+
+struct composite_Object : DObject {
+    DObject* buf;
+    uint64 num;
+};
+
+DType genericComposite_Type = DType::MakeGeneric< ptr_Object >( "comp", "Generic composite type" );
+
+
+struct vec2f_Object : DObject {
+    float x, y;
+};
+
+DType vec2f_Type = DType::MakeGeneric< ptr_Object >( "vec2f", "Vector float 2D" );
+
+DType* typeRegister[] = {
+      &uint8_Type
+    , &uint16_Type
+    , &uint32_Type
+    , &uint64_Type
+    , &int8_Type
+    , &int16_Type
+    , &int32_Type
+    , &int64_Type
+    , &float_Type
+    , &double_Type
+    , &bool_Type
+    , &char_Type
+    , &ptr_Type
+    , &genericComposite_Type
+    , &vec2f_Type
+};
+
 int
 main( int argc, char *argv[] )
 {
     uint8_Object* var_test = (uint8_Object*)uint8_Type.ObjectCreate();
-    var_test->val = 50;
     uint32 hash = uint8_Type.hash( var_test );
+
+    ptr_Object* ptr_test = (ptr_Object*)ptr_Type.ObjectCreate();
+    ptr_test->val = var_test;
+
+    ptr_Type.ObjectDelete( ptr_test );
     uint8_Type.ObjectDelete( var_test );
 
     uint8_Object* var_uint8 = (uint8_Object*)uint8_Type.ObjectCreate();

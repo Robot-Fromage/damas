@@ -21,6 +21,14 @@ struct DAMAS_API DObject
 {
     int64 refcount;
     DType* type;
+
+    DObject* Adress() {
+        return  this;
+    }
+
+    const DObject* Adress() const {
+        return  this;
+    }
 };
 
 DAMAS_NAMESPACE_END
