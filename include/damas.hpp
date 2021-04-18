@@ -9,4 +9,6 @@
 */
 #pragma once
 #include "core/core.hpp"
+#include "core/cpuinfo.hpp"
+#include "core/libinfo.hpp"
 

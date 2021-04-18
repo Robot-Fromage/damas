@@ -183,13 +183,18 @@
 #ifdef DAMAS_WIN
     #ifdef DAMAS_STATIC_LIBRARY
         #define DAMAS_BUILT_AS_STATIC_LIBRARY
-        #define DAMAS_DLLEXPORT
-        #define DAMAS_DLLIMPORT
+        #define DAMAS_API
     #else
-        #define DAMAS_BUILT_AS_SHARED_LIBRARY
-        #define DAMAS_DLLEXPORT __declspec( dllexport )
-        #define DAMAS_DLLIMPORT __declspec( dllimport )
+        #ifdef DAMAS_BUILD_SHARED
+            #define DAMAS_BUILT_AS_SHARED_LIBRARY
+            #define DAMAS_API __declspec( dllexport )
+        #else
+            #define DAMAS_BUILT_AS_SHARED_LIBRARY
+            #define DAMAS_API __declspec( dllimport )
+        #endif
     #endif
+#else
+    #define DAMAS_API
 #endif
 
 /////////////////////////////////////////////////////
