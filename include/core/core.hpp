@@ -8,6 +8,5 @@
 * @license      Please refer to LICENSE.md
 */
 #pragma once
-#include "core/platform.hpp"
 #include "core/coretypes.hpp"
 
