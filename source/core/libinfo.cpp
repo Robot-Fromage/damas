@@ -10,32 +10,48 @@
 #include "core/libinfo.hpp"
 
 DAMAS_NAMESPACE_BEGIN
+namespace detail {
+static constexpr char* sgVersionString = DAMAS_STRINGIFY( DAMAS_VERSION_EPOCH.DAMAS_VERSION_MINOR.DAMAS_VERSION_PATCH );
+static constexpr char* sgVersionEpochString = DAMAS_VERSION_EPOCH_STR;
+static constexpr char* sgVersionMinorString = DAMAS_VERSION_MINOR_STR;
+static constexpr char* sgVersionPatchString = DAMAS_VERSION_PATCH_STR;
+static constexpr char* sgConfigurationString = DAMAS_STRINGIFY( DAMAS_CONFIGURATION );
+static constexpr char* sgCompilationTimeString = __DATE__ ", " __TIME__;
+static constexpr char* sgCompilerNameString = DAMAS_STRINGIFY( DAMAS_COMPILER_NAME );
+static constexpr char* sgCompilerVersionString = DAMAS_STRINGIFY( DAMAS_COMPILER_VERSION );
+static constexpr char* sgPlatformNameString = DAMAS_STRINGIFY( DAMAS_PLATFORM_NAME );
+static constexpr char* sgCompilerInformationString = DAMAS_STRINGIFY( DAMAS_COMPILER_NAME DAMAS_COMPILER_VERSION );
+static constexpr char* sgGitBranchNameString = DAMAS_GIT_BRANCH_NAME_STR;
+static constexpr char* sgGitCommitHashString = DAMAS_GIT_COMMIT_HASH_STR;
+static constexpr char* sgGitCommitAbbreviatedHashString = DAMAS_GIT_COMMIT_ABBREVIATED_HASH_STR;
+} // namespace detail
+
 //static
-std::string
+const char*
 DLibInfo::VersionString()
 {
-    return  VersionEpochString() + "." + VersionMinorString() + "." + VersionPatchString();
+    return  detail::sgVersionString;
 }
 
 //static
-std::string
+const char*
 DLibInfo::VersionEpochString()
 {
-    return  std::string( DAMAS_VERSION_EPOCH_STR );
+    return  detail::sgVersionEpochString;
 }
 
 //static
-std::string
+const char*
 DLibInfo::VersionMinorString()
 {
-    return  std::string( DAMAS_VERSION_MINOR_STR );
+    return  detail::sgVersionMinorString;
 }
 
 //static
-std::string
+const char*
 DLibInfo::VersionPatchString()
 {
-    return  std::string( DAMAS_VERSION_PATCH_STR );
+    return  detail::sgVersionPatchString;
 }
 
 //static
@@ -60,66 +76,38 @@ DLibInfo::VersionPatch()
 }
 
 //static
-std::string
+const char*
 DLibInfo::ConfigurationString()
 {
-#if defined( DAMAS_DEBUG )
-    return  std::string( "Debug" );
-#elif defined( DAMAS_RELEASE )
-    return  std::string( "Release" );
-#elif defined( DAMAS_RELWITHDEBINFO )
-    return  std::string( "RelWithDebInfo" );
-#endif
+    return  detail::sgConfigurationString;
 }
 
 //static
-std::string
+const char*
 DLibInfo::CompilationTimeString()
 {
-    return  std::string( __DATE__ ) + ", " + std::string( __TIME__ );
+    return  detail::sgCompilationTimeString;
 }
 
 //static
-std::string
+const char*
 DLibInfo::CompilerNameString()
 {
-#if defined( DAMAS_CLANG )
-    return  std::string( "CLANG" );
-#elif defined( DAMAS_GCC )
-    return  std::string( "GCC" );
-#elif defined( DAMAS_MSVC )
-    return  std::string( "MSVC" );
-#elif defined( DAMAS_MINGW64 )
-    return  std::string( "MINGW64" );
-#elif defined( DAMAS_EMSCRIPTEN )
-    return  std::string( "EMSCRIPTEN" );
-#else
-    return  std::string( "UNKNOWN" );
-#endif
+    return  detail::sgCompilerNameString;
 }
 
 //static
-std::string
+const char*
 DLibInfo::CompilerVersionString()
 {
-#if defined( DAMAS_CLANG )
-    return  std::string( DAMAS_STRINGIFY( __clang_major__ ) ) + "." + DAMAS_STRINGIFY( __clang_minor__ ) + "." + DAMAS_STRINGIFY( __clang_patchlevel__ );
-#elif defined( DAMAS_GCC )
-    return  std::string( DAMAS_STRINGIFY( __GNUC__ ) ) + "." + DAMAS_STRINGIFY( __GNUC_MINOR__ );
-#elif defined( DAMAS_MSVC )
-    return  std::string( DAMAS_STRINGIFY( _MSC_VER ) );
-#elif defined( DAMAS_MINGW64 )
-    return  std::string( DAMAS_STRINGIFY( __MINGW64_VERSION_EPOCH ) ) + "." + DAMAS_STRINGIFY( __MINGW64_VERSION_MINOR );
-#else
-    return  std::string( "" );
-#endif
+    return  detail::sgCompilerVersionString;
 }
 
 //static
-std::string
+const char*
 DLibInfo::CompilerInformationString()
 {
-    return  CompilerNameString() + " " + CompilerVersionString();
+    return  detail::sgCompilerInformationString;
 }
 
 //static
@@ -164,37 +152,44 @@ DLibInfo::BuiltAsSharedLibrary()
 #endif
 }
 
+// static
+const char*
+DLibInfo::PlatformNameString()
+{
+    return  detail::sgPlatformNameString;
+}
+
 //static
-std::string
+const char*
 DLibInfo::BranchNameString()
 {
-    return  std::string( DAMAS_GIT_BRANCH_NAME_STR );
+    return  detail::sgGitBranchNameString;
 }
 
 //static
-std::string
+const char*
 DLibInfo::CommitHashString()
 {
-    return  std::string( DAMAS_GIT_COMMIT_HASH_STR );
+    return  detail::sgGitCommitHashString;
 }
 
 //static
-std::string
+const char*
 DLibInfo::CommitAbbreviatedHashString()
 {
-    return  std::string( DAMAS_GIT_COMMIT_ABBREVIATED_HASH_STR );
+    return  detail::sgGitCommitAbbreviatedHashString;
 }
 
 //static
 std::string
 DLibInfo::LibraryInformationString()
 {
-    std::string on( "on" );
-    std::string off( "off" );
-    std::string sse = CompiledWithSSE42() ? on : off;
-    std::string avx = CompiledWithAVX2() ?  on : off;
+    const char* on( "on" );
+    const char* off( "off" );
+    const char* sse = CompiledWithSSE42() ? on : off;
+    const char* avx = CompiledWithAVX2() ?  on : off;
     // 4.0.0 (Aug 15 2020, 15:12:04) [MSVC v.1916 x64] {Release}
-    return  ConfigurationString() + " " + VersionString() + " "
+    return  std::string( ConfigurationString() ) + " " + VersionString() + " "
             + "(" + BranchNameString() + ":" + CommitAbbreviatedHashString() + ", " + CompilationTimeString() + ") "
             + "[" + CompilerInformationString() + " x64] "
             + "{SSE4.2:" + sse + ", AVX2:" + avx + "};";
