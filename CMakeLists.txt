@@ -10,22 +10,33 @@
 CMake_minimum_required(VERSION 3.11.0)
 
 # Input
-option( DAMAS_BUILD_SHARED      "Build the library shared or statically."           ON      )
-option( DAMAS_BUILD_EXAMPLES    "Build the library examples."                       OFF     )
-option( DAMAS_FORCE_ASSERT      "Build the library with forced assert."             OFF     )
-option( DAMAS_USE_NAMESPACE     "Build the library with forced namespace."          OFF     )
+option( DAMAS_BUILD_SHARED "Build the library as shared or static." ON )
 
 # Setup
 message( "Starting environnement setup before generation." )
-include( ${CMAKE_CURRENT_SOURCE_DIR}/tool/CMake/DetectCompiler.cmake )
 include( ${CMAKE_CURRENT_SOURCE_DIR}/tool/CMake/ConfigureGeneration.cmake )
-include( ${CMAKE_CURRENT_SOURCE_DIR}/tool/CMake/SetCompilerFlags.cmake )
 include( ${CMAKE_CURRENT_SOURCE_DIR}/tool/CMake/DetectVersion.cmake )
-include( ${CMAKE_CURRENT_SOURCE_DIR}/tool/CMake/DetectGit.cmake )
 include( ${CMAKE_CURRENT_SOURCE_DIR}/tool/CMake/DetectTimestamp.cmake )
-include( ${CMAKE_CURRENT_SOURCE_DIR}/tool/CMake/AddLibraryModule.cmake )
+include( ${CMAKE_CURRENT_SOURCE_DIR}/tool/CMake/DetectGit.cmake )
+
+# Functions
+include( ${CMAKE_CURRENT_SOURCE_DIR}/tool/CMake/SubdirList.cmake )
 
 # Project
 message( "Starting project generation." )
-project( Damas${ULIS_VERSION_MAJOR}_Project )
+project( Damas${ULIS_VERSION_EPOCH}_Project )
+include( ${CMAKE_CURRENT_SOURCE_DIR}/tool/CMake/DetectCompiler.cmake )
+include( ${CMAKE_CURRENT_SOURCE_DIR}/tool/CMake/SetCompilerFlags.cmake )
+
+# Library Dependencies
+#include( ${CMAKE_CURRENT_SOURCE_DIR}/tool/CMake/FindX.cmake )
+
+# Library
+include( ${CMAKE_CURRENT_SOURCE_DIR}/tool/CMake/Library.cmake )
+
+# Interactive interpreter
+include( ${CMAKE_CURRENT_SOURCE_DIR}/tool/CMake/Interpreter.cmake )
+
+# Install
+include( ${CMAKE_CURRENT_SOURCE_DIR}/tool/CMake/Install.cmake )
 
