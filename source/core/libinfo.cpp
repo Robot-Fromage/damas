@@ -181,7 +181,7 @@ DLibInfo::CommitAbbreviatedHashString()
 }
 
 //static
-std::string
+DString
 DLibInfo::LibraryInformationString()
 {
     const char* on( "on" );
@@ -189,7 +189,7 @@ DLibInfo::LibraryInformationString()
     const char* sse = CompiledWithSSE42() ? on : off;
     const char* avx = CompiledWithAVX2() ?  on : off;
     // 4.0.0 (Aug 15 2020, 15:12:04) [MSVC v.1916 x64] {Release}
-    return  std::string( ConfigurationString() ) + " " + VersionString() + " "
+    return  DString( ConfigurationString() ) + " " + VersionString() + " "
             + "(" + BranchNameString() + ":" + CommitAbbreviatedHashString() + ", " + CompilationTimeString() + ") "
             + "[" + CompilerInformationString() + " x64] "
             + "{SSE4.2:" + sse + ", AVX2:" + avx + "};";

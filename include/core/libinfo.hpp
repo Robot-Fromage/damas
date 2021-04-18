@@ -9,7 +9,7 @@
 */
 #pragma once
 #include "core/core.hpp"
-#include <string>
+#include "string/string.hpp"
 
 DAMAS_NAMESPACE_BEGIN
 /// @class      DLibInfo
@@ -89,7 +89,7 @@ public:
     static const char* CommitAbbreviatedHashString();
 
     /*! Retrieve the full library identification string */
-    static std::string LibraryInformationString();
+    static DString LibraryInformationString();
 };
 
 DAMAS_NAMESPACE_END

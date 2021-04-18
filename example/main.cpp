@@ -97,7 +97,7 @@ main( int argc, char *argv[] )
     std::cout << "MaxWorkers:               " << DCPUInfo::MaxWorkers()                << std::endl;
     std::cout << "L1CacheSize:              " << DCPUInfo::L1CacheSize()               << std::endl;
     std::cout << "L1CacheLineSize:          " << DCPUInfo::L1CacheLineSize()           << std::endl;
-    std::cout << DLibInfo::LibraryInformationString() << std::endl;
+    std::cout << DLibInfo::LibraryInformationString().Data() << std::endl;
     return  0;
 }
 

@@ -9,7 +9,6 @@
 */
 #pragma once
 #include "core/core.hpp"
-#include <string>
 
 DAMAS_NAMESPACE_BEGIN
 // FDecl
