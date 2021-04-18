@@ -1,14 +1,15 @@
 /*
 *   Damas
 *__________________
-* @file         damas.hpp
+* @file         object.cpp
 * @author       Clement Berthaud
-* @brief        This file gathers include files for the Damas library.
+* @brief        This file defines a concept of the Damas language.
 * @copyright    Copyright 2021 Clément Berthaud
 * @license      Please refer to LICENSE.md
 */
 #pragma once
-#include "core/core.hpp"
-#include "core/cpuinfo.hpp"
-#include "core/libinfo.hpp"
+#include "concept/object.hpp"
+
+DAMAS_NAMESPACE_BEGIN
+DAMAS_NAMESPACE_END
 
