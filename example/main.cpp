@@ -14,7 +14,6 @@
 int
 main( int argc, char *argv[] )
 {
-    std::cout << dms::DLibInfo::LibraryInformationString() << std::endl;
     std::cout << "IsHardwareAmd:            " << dms::DCPUInfo::IsHardwareAmd()             << std::endl;
     std::cout << "IsHardwareIntel:          " << dms::DCPUInfo::IsHardwareIntel()           << std::endl;
     std::cout << "IsOSx64:                  " << dms::DCPUInfo::IsOSx64()                   << std::endl;
@@ -55,6 +54,7 @@ main( int argc, char *argv[] )
     std::cout << "MaxWorkers:               " << dms::DCPUInfo::MaxWorkers()                << std::endl;
     std::cout << "L1CacheSize:              " << dms::DCPUInfo::L1CacheSize()               << std::endl;
     std::cout << "L1CacheLineSize:          " << dms::DCPUInfo::L1CacheLineSize()           << std::endl;
+    std::cout << dms::DLibInfo::LibraryInformationString() << std::endl;
     return  0;
 }
 
